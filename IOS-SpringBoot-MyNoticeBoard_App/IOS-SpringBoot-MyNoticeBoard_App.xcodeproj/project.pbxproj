@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A56B03CB2806B1E80072A9E6 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A56B03CA2806B1E80072A9E6 /* SnapKit */; };
+		A56B03D42807288D0072A9E6 /* NoticeBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56B03D32807288D0072A9E6 /* NoticeBoardViewController.swift */; };
+		A56B03D628072A930072A9E6 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56B03D528072A930072A9E6 /* TabBarController.swift */; };
+		A56B03D828072C070072A9E6 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56B03D728072C070072A9E6 /* SearchViewController.swift */; };
+		A56B03DA28072C440072A9E6 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56B03D928072C440072A9E6 /* NewPostViewController.swift */; };
+		A56B03DC28072C650072A9E6 /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56B03DB28072C650072A9E6 /* AlarmViewController.swift */; };
+		A56B03DE28072C800072A9E6 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56B03DD28072C800072A9E6 /* MyPageViewController.swift */; };
 		A5F820352804246300BC249C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F820342804246300BC249C /* AppDelegate.swift */; };
 		A5F820372804246300BC249C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F820362804246300BC249C /* SceneDelegate.swift */; };
 		A5F820392804246300BC249C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F820382804246300BC249C /* ViewController.swift */; };
@@ -15,6 +22,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A56B03D32807288D0072A9E6 /* NoticeBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeBoardViewController.swift; sourceTree = "<group>"; };
+		A56B03D528072A930072A9E6 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		A56B03D728072C070072A9E6 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		A56B03D928072C440072A9E6 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
+		A56B03DB28072C650072A9E6 /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
+		A56B03DD28072C800072A9E6 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		A5F820312804246300BC249C /* IOS-SpringBoot-MyNoticeBoard_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IOS-SpringBoot-MyNoticeBoard_App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5F820342804246300BC249C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5F820362804246300BC249C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -29,12 +42,65 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A56B03CB2806B1E80072A9E6 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A56B03D2280728210072A9E6 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				A56B03DF28072C850072A9E6 /* NoticeBoard */,
+				A56B03E028072CC50072A9E6 /* Search */,
+				A56B03E128072CD10072A9E6 /* NewPost */,
+				A56B03E228072CD80072A9E6 /* Alarm */,
+				A56B03E328072CDE0072A9E6 /* MyPage */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		A56B03DF28072C850072A9E6 /* NoticeBoard */ = {
+			isa = PBXGroup;
+			children = (
+				A56B03D32807288D0072A9E6 /* NoticeBoardViewController.swift */,
+			);
+			path = NoticeBoard;
+			sourceTree = "<group>";
+		};
+		A56B03E028072CC50072A9E6 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				A56B03D728072C070072A9E6 /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		A56B03E128072CD10072A9E6 /* NewPost */ = {
+			isa = PBXGroup;
+			children = (
+				A56B03D928072C440072A9E6 /* NewPostViewController.swift */,
+			);
+			path = NewPost;
+			sourceTree = "<group>";
+		};
+		A56B03E228072CD80072A9E6 /* Alarm */ = {
+			isa = PBXGroup;
+			children = (
+				A56B03DB28072C650072A9E6 /* AlarmViewController.swift */,
+			);
+			path = Alarm;
+			sourceTree = "<group>";
+		};
+		A56B03E328072CDE0072A9E6 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				A56B03DD28072C800072A9E6 /* MyPageViewController.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
 		A5F820282804246300BC249C = {
 			isa = PBXGroup;
 			children = (
@@ -60,6 +126,8 @@
 				A5F8203D2804246600BC249C /* Assets.xcassets */,
 				A5F8203F2804246600BC249C /* LaunchScreen.storyboard */,
 				A5F820422804246600BC249C /* Info.plist */,
+				A56B03D2280728210072A9E6 /* Scenes */,
+				A56B03D528072A930072A9E6 /* TabBarController.swift */,
 			);
 			path = "IOS-SpringBoot-MyNoticeBoard_App";
 			sourceTree = "<group>";
@@ -80,6 +148,9 @@
 			dependencies = (
 			);
 			name = "IOS-SpringBoot-MyNoticeBoard_App";
+			packageProductDependencies = (
+				A56B03CA2806B1E80072A9E6 /* SnapKit */,
+			);
 			productName = "IOS-SpringBoot-MyNoticeBoard_App";
 			productReference = A5F820312804246300BC249C /* IOS-SpringBoot-MyNoticeBoard_App.app */;
 			productType = "com.apple.product-type.application";
@@ -108,6 +179,9 @@
 				Base,
 			);
 			mainGroup = A5F820282804246300BC249C;
+			packageReferences = (
+				A56B03C92806B1E80072A9E6 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = A5F820322804246300BC249C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -134,8 +208,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A56B03DC28072C650072A9E6 /* AlarmViewController.swift in Sources */,
+				A56B03DE28072C800072A9E6 /* MyPageViewController.swift in Sources */,
+				A56B03D828072C070072A9E6 /* SearchViewController.swift in Sources */,
+				A56B03D42807288D0072A9E6 /* NoticeBoardViewController.swift in Sources */,
 				A5F820392804246300BC249C /* ViewController.swift in Sources */,
+				A56B03DA28072C440072A9E6 /* NewPostViewController.swift in Sources */,
 				A5F820352804246300BC249C /* AppDelegate.swift in Sources */,
+				A56B03D628072A930072A9E6 /* TabBarController.swift in Sources */,
 				A5F820372804246300BC249C /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,6 +424,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A56B03C92806B1E80072A9E6 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A56B03CA2806B1E80072A9E6 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A56B03C92806B1E80072A9E6 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A5F820292804246300BC249C /* Project object */;
 }
