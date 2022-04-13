@@ -9,10 +9,10 @@ import UIKit
 import SnapKit
 
 class NoticeBoardViewController: UIViewController {
-    
+    private var posts: [
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        
         
     }
     
