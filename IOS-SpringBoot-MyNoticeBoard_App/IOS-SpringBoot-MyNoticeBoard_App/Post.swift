@@ -10,7 +10,7 @@ import Foundation
 struct Post: Codable{
     let id: Int?
     let title, content, userNickName: String?
-    let time: Date?
+    let time: String?
     let hashTag: [String]?
 
     enum CodingKeys: String, CodingKey {

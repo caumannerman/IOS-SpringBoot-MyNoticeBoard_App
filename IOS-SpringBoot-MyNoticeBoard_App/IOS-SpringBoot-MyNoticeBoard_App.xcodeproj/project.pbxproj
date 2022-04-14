@@ -15,6 +15,7 @@
 		A56B03DC28072C650072A9E6 /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56B03DB28072C650072A9E6 /* AlarmViewController.swift */; };
 		A56B03DE28072C800072A9E6 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56B03DD28072C800072A9E6 /* MyPageViewController.swift */; };
 		A56B03E5280737A40072A9E6 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56B03E4280737A40072A9E6 /* Post.swift */; };
+		A56B03E728073A7D0072A9E6 /* NoticeBoardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56B03E628073A7D0072A9E6 /* NoticeBoardViewCell.swift */; };
 		A5F820352804246300BC249C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F820342804246300BC249C /* AppDelegate.swift */; };
 		A5F820372804246300BC249C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F820362804246300BC249C /* SceneDelegate.swift */; };
 		A5F8203E2804246600BC249C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5F8203D2804246600BC249C /* Assets.xcassets */; };
@@ -29,6 +30,7 @@
 		A56B03DB28072C650072A9E6 /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
 		A56B03DD28072C800072A9E6 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		A56B03E4280737A40072A9E6 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		A56B03E628073A7D0072A9E6 /* NoticeBoardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeBoardViewCell.swift; sourceTree = "<group>"; };
 		A5F820312804246300BC249C /* IOS-SpringBoot-MyNoticeBoard_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IOS-SpringBoot-MyNoticeBoard_App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5F820342804246300BC249C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5F820362804246300BC249C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 			isa = PBXGroup;
 			children = (
 				A56B03D32807288D0072A9E6 /* NoticeBoardViewController.swift */,
+				A56B03E628073A7D0072A9E6 /* NoticeBoardViewCell.swift */,
 			);
 			path = NoticeBoard;
 			sourceTree = "<group>";
@@ -215,6 +218,7 @@
 				A56B03DA28072C440072A9E6 /* NewPostViewController.swift in Sources */,
 				A5F820352804246300BC249C /* AppDelegate.swift in Sources */,
 				A56B03E5280737A40072A9E6 /* Post.swift in Sources */,
+				A56B03E728073A7D0072A9E6 /* NoticeBoardViewCell.swift in Sources */,
 				A56B03D628072A930072A9E6 /* TabBarController.swift in Sources */,
 				A5F820372804246300BC249C /* SceneDelegate.swift in Sources */,
 			);
