@@ -12,7 +12,7 @@ import UIKit
 class TabBarController: UITabBarController{
     
     private lazy var noticeBoardViewController: UIViewController = {
-        let viewController = NoticeBoardViewController()
+        let viewController = UINavigationController( rootViewController: NoticeBoardViewController())
         let tabBarItem = UITabBarItem(title: "게시판", image: UIImage(systemName: "list.bullet.indent"), tag: 0)
 //        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.red], for: .selected) UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.red], for: .normal)
         tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemMint], for: .selected)
@@ -30,7 +30,7 @@ class TabBarController: UITabBarController{
     }()
     
     private lazy var newPostViewController: UIViewController = {
-        let viewController = NewPostViewController()
+        let viewController = UINavigationController(rootViewController: NewPostViewController()) 
         let tabBarItem = UITabBarItem(title: "글쓰기", image: UIImage(systemName: "pencil"), tag: 0)
         tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemMint], for: .selected)
         viewController.tabBarItem = tabBarItem
