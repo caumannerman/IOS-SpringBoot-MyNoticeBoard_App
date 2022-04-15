@@ -64,6 +64,8 @@ class NoticeBoardDetailViewController: UIViewController {
       
         button.setTitle("...", for: .normal)
         button.setTitleColor(.systemMint, for: .normal)
+        
+        button.addTarget(self, action: #selector(onTapButton), for: .touchUpInside)
         return button
     }()
     
@@ -80,7 +82,44 @@ class NoticeBoardDetailViewController: UIViewController {
         return textView
     }()
     
+    @objc func onTapButton(){
+        let alert = UIAlertController(title: "변경하시겠습니까?", message: nil, preferredStyle: .actionSheet)
+        
+        let reviseButton = UIAlertAction(title: "글 수정하기", style: .default, handler: {[weak self] _ in
+            debugPrint("수정버튼 클릭")
+            let viewController = NewPostViewController()
+            self?.navigationController?.pushViewController(viewController, animated: true)
+            
+        })
+        let deleteButton = UIAlertAction(title: "글 삭제하기", style: .default, handler: {[weak self] _ in
+            
+           // debugPrint("삭제버튼 클릭")
+            //self?.dismiss(animated:true)
+            self?.deleteForReal()
+        })
+       
+        
+        let cancelButton = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(reviseButton)
+        alert.addAction(deleteButton)
+        alert.addAction(cancelButton)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
     
+    //정말 삭제하겠냐고 되묻는 alert
+    private func deleteForReal(){
+        let alert = UIAlertController(title: "정말 삭제하시겠습니까?", message: nil, preferredStyle: .alert)
+        
+        let deleteButton = UIAlertAction(title: "삭제", style: .default, handler: nil)// 취소 버튼 클릭 시, 별다른 것 하지 않기때문에 handelr에 nil
+        
+        let cancelButton = UIAlertAction(title: "취소", style: .cancel, handler: nil)//
+        
+        alert.addAction(deleteButton)
+        alert.addAction(cancelButton)
+        self.present(alert, animated: true, completion: nil)
+    }
     
     
     override func viewDidLoad() {
