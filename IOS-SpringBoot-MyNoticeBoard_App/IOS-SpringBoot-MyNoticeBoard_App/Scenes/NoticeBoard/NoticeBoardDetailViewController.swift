@@ -88,6 +88,8 @@ class NoticeBoardDetailViewController: UIViewController {
         let reviseButton = UIAlertAction(title: "글 수정하기", style: .default, handler: {[weak self] _ in
             debugPrint("수정버튼 클릭")
             let viewController = NewPostViewController()
+            guard let post = self?.post else {return}
+            viewController.postEditMode = .edit(post)
             self?.navigationController?.pushViewController(viewController, animated: true)
             
         })

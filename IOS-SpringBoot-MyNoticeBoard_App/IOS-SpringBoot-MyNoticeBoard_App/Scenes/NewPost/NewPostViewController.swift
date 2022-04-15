@@ -8,7 +8,14 @@
 import UIKit
 import SnapKit
 
+enum PostEditMode{
+    case new
+    case edit( Post)
+}
+
 class NewPostViewController: UIViewController {
+    
+    var postEditMode: PostEditMode = .new
     
     private lazy var titleTextField: UITextField = {
         let textField = UITextField()
@@ -43,18 +50,40 @@ class NewPostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "등록", style: .plain, target: self, action: nil)
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "임시저장", style: .plain, target: self, action: nil)
+        switch postEditMode {
+        case .new:
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "등록", style: .plain, target: self, action: nil)
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "임시저장", style: .plain, target: self, action: nil)
+        case .edit(_):
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "수정", style: .plain, target: self, action: nil)
+        }
+       
         setupSubview()
         placeholderSetting()
+        configureEditMode()
         
     }
     
-    func placeholderSetting(){
+    private func placeholderSetting(){
         contentsTextView.delegate = self
         contentsTextView.text = "내용을 입력해주세요."
         contentsTextView.textColor = .lightGray
     }
+    
+    //edit모드일 시, 가져온 post의 title, content를 뿌려줌
+    private func configureEditMode(){
+        switch postEditMode {
+        case .edit(let post):
+            self.titleTextField.text = post.title
+            self.contentsTextView.text = post.content
+            self.contentsTextView.textColor = .black
+        default:
+            break
+        
+        }
+           
+        }
+    
 }
 
 private extension NewPostViewController{
