@@ -42,5 +42,10 @@ extension NoticeBoardViewController {
         return cell
     }
     
-   
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let noticeBoardDetailView = NoticeBoardDetailViewController()
+        noticeBoardDetailView.post = posts[indexPath.row]
+        //self.show(noticeBoardDetailView, sender: nil)
+        self.navigationController?.pushViewController(noticeBoardDetailView, animated: true)
+    }
 }

@@ -10,57 +10,34 @@ import SnapKit
 
 class NewPostViewController: UIViewController {
     
-//    private lazy var item: UINavigationItem = {
-//
-//    }()
-    
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 12.0, weight: .regular)
-        label.textColor = .darkGray
-        label.text = "제목"
-        return label
-    }()
-    
     private lazy var titleTextField: UITextField = {
         let textField = UITextField()
         textField.font = .systemFont(ofSize: 17.0, weight: .bold)
         textField.textColor = .black
       
-        textField.layer.borderWidth = 0.5
+        textField.layer.borderWidth = 1.5
         textField.layer.cornerRadius = 10.0
-        textField.layer.borderColor = UIColor(red: 120/155, green: 120/155, blue: 120/155, alpha: 1.0).cgColor
+        textField.layer.borderColor = UIColor(red: 70/255, green: 205/255, blue: 170/255, alpha: 1.0).cgColor
         
         textField.placeholder = "제목을 입력해주세요."
        
         return textField
     }()
-    
-    private lazy var contentsLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 12.0, weight: .regular)
-        label.textColor = .darkGray
-        label.text = "내용"
-        
-        return label
-    }()
-    
-    
+
     private lazy var contentsTextView: UITextView = {
         let textView = UITextView()
         textView.font = .systemFont(ofSize: 17.0, weight: .bold)
         textView.textColor = .lightGray
         
-        textView.layer.borderWidth = 0.5
+        textView.layer.borderWidth = 2.5
         textView.layer.cornerRadius = 10.0
-        textView.layer.borderColor = UIColor(red: 120/155, green: 120/155, blue: 120/155, alpha: 1.0).cgColor
+        textView.layer.borderColor = UIColor(red: 70/255, green: 205/255, blue: 170/255, alpha: 1.0).cgColor
+        
         
         textView.text = "내용을 입력해주세요."
         
         return textView
     }()
-    
-    
     
     
     override func viewDidLoad() {
