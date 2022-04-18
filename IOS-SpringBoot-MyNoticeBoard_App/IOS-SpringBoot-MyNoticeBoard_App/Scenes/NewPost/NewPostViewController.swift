@@ -129,9 +129,14 @@ class NewPostViewController: UIViewController {
                 print(posts)
 
                 //UI작업은 main스레드에서 하도록
-//                DispatchQueue.main.async{
-//                    self.tableView.reloadData()
-//                }
+                //글 작성 페이지를 초기화
+                DispatchQueue.main.async{
+                self.resetUI()
+                // 작성이 잘 됐다는 UIAlertController 보여주기
+                self.onTapButton()
+                    
+                }
+                
             case(400...499)://클라이언트 에러
                 print("""
 ERROR: Client ERROR \(response.statusCode)
@@ -151,7 +156,7 @@ Response: \(response)
             }
         }
     dataTask.resume() // 해당 task를 실행
-            }
+}
     
     private func placeholderSetting(){
         contentsTextView.delegate = self
@@ -199,6 +204,13 @@ private extension NewPostViewController{
             
         }
     }
+    
+    func resetUI(){
+        titleTextField.text = ""
+        contentsTextView.text = "내용을 입력해주세요."
+        contentsTextView.textColor = .lightGray
+        hashtagTextField.text = ""
+    }
 }
 
 // textView의 placeholder지정을 위한 protocol구현
@@ -215,5 +227,26 @@ extension NewPostViewController: UITextViewDelegate{
             contentsTextView.textColor = .lightGray
         }
         
+    }
+}
+
+// NavigationItem UIBarButtonItem Action
+extension NewPostViewController{
+    func onTapButton(){
+        let alert = UIAlertController(title: "글이 등록되었습니다.", message: "목록으로 이동하시겠습니까?", preferredStyle: .alert)
+        
+        let okButton = UIAlertAction(title: "확인", style: .default, handler: {[weak self] _ in
+            debugPrint("목록으로 이동")
+            // Todo: 글목록으로 이동해야함
+            self?.tabBarController?.selectedIndex = 0
+//            let viewController = NewPostViewController()
+//            guard let post = self?.post else {return}
+//            viewController.postEditMode = .edit(post)
+//            self?.navigationController?.pushViewController(viewController, animated: true)
+        })
+       
+        alert.addAction(okButton)
+   
+        self.present(alert, animated: true, completion: nil)
     }
 }
