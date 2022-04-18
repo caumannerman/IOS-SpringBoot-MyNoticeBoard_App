@@ -75,6 +75,7 @@ class NewPostViewController: UIViewController {
         setupSubview()
         placeholderSetting()
         configureEditMode()
+       
         
     }
                                                                      

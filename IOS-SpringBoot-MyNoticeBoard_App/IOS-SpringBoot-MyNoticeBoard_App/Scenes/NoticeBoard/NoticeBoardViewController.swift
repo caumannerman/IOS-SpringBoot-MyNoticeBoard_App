@@ -20,7 +20,8 @@ class NoticeBoardViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // 당겨서 새로고침을 위함  tableView는 ScrollView를 상속받고, 이는 RefreshControl을 멤버로 갖고있다. 
+        tableView.refreshControl = UIRefreshControl()
         tableView.register(NoticeBoardViewCell.self, forCellReuseIdentifier: "NoticeBoardViewCell")
         tableView.rowHeight = 100.0
         
