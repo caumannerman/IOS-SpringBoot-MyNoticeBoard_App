@@ -20,8 +20,9 @@ class NoticeBoardViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // 당겨서 새로고침을 위함  tableView는 ScrollView를 상속받고, 이는 RefreshControl을 멤버로 갖고있다. 
+        // 당겨서 새로고침을 위함  tableView는 ScrollView를 상속받고, 이는 RefreshControl을 멤버로 갖고있다.
         tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         tableView.register(NoticeBoardViewCell.self, forCellReuseIdentifier: "NoticeBoardViewCell")
         tableView.rowHeight = 100.0
         
@@ -55,7 +56,7 @@ extension NoticeBoardViewController {
 
 
 extension NoticeBoardViewController{
-    func getAllPosts() {
+   @objc func getAllPosts() {
         guard let url = URL(string: "http://localhost:8080/api/posts/") else { return }
         
         var request = URLRequest(url: url)
@@ -98,5 +99,11 @@ Response: \(response)
             }
         }
         dataTask.resume() // 해당 task를 실행
+    }
+    
+    @objc private func refreshData(){
+        getAllPosts()
+        self.tableView?.reloadData()
+        self.tableView.refreshControl?.endRefreshing()
     }
 }
