@@ -57,7 +57,7 @@ extension NoticeBoardViewController {
 
 extension NoticeBoardViewController{
    @objc func getAllPosts() {
-        guard let url = URL(string: "http://localhost:8080/api/posts/") else { return }
+        guard let url = URL(string: "http://localhost:9090/api/posts/") else { return }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -102,7 +102,10 @@ Response: \(response)
     }
     
     @objc private func refreshData(){
+        //데이터를 다시 로드하므로, 기존 데이터 다 지우고 다시 받아옴
+        postList.removeAll()
         getAllPosts()
+        //다시 받아온 데이터로 테이블 뷰 업데이트
         self.tableView?.reloadData()
         self.tableView.refreshControl?.endRefreshing()
     }

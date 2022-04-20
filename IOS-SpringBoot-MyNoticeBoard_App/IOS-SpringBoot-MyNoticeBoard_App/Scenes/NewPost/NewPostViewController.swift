@@ -81,7 +81,7 @@ class NewPostViewController: UIViewController {
                                                                      
     @objc func createPost(){
         print("pressed")
-        guard let url = URL(string: "http://localhost:8080/api/posts/") else {
+        guard let url = URL(string: "http://localhost:9090/api/posts/") else {
             print("ERROR: Cannot create URL")
             return
         }

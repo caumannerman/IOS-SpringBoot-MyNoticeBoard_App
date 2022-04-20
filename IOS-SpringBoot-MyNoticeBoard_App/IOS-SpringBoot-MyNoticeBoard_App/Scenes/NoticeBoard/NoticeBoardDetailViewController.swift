@@ -114,7 +114,10 @@ class NoticeBoardDetailViewController: UIViewController {
     private func deleteForReal(){
         let alert = UIAlertController(title: "정말 삭제하시겠습니까?", message: nil, preferredStyle: .alert)
         
-        let deleteButton = UIAlertAction(title: "삭제", style: .default, handler: nil)// 취소 버튼 클릭 시, 별다른 것 하지 않기때문에 handelr에 nil
+        let deleteButton = UIAlertAction(title: "삭제", style: .default){ [weak self] _ in
+            //api
+            self?.deletePost()
+        }// 취소 버튼 클릭 시, 별다른 것 하지 않기때문에 handelr에 nil
         
         let cancelButton = UIAlertAction(title: "취소", style: .cancel, handler: nil)//
         
@@ -123,6 +126,64 @@ class NoticeBoardDetailViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+  func deletePost(){
+        debugPrint("delete button pressed")
+      guard let url = URL(string: "http://localhost:9090/api/posts/\(post?.id ?? 0)") else {
+            print("ERROR: DELETE ERROR creating URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        //request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let dataTask = URLSession.shared.dataTask(with: request) {  data, response, error in
+            guard error == nil else{
+                print("ERROR: error calling DELETE")
+                return
+            }
+            guard let response = response as? HTTPURLResponse else{
+                print("ERROR: Http request failed")
+                return
+            }
+            guard let data = data else{
+                print("ERROR: Did not receive data")
+                return
+            }
+
+            switch response.statusCode{
+            case(200...299)://성공
+                debugPrint("delete 성공")
+               
+                //UI작업은 main스레드에서 하도록
+                DispatchQueue.main.async{
+                
+                // 삭제가 잘 됐다는 UIAlertController 보여주기
+                self.onDeleteSuccess()
+                    
+                }
+                
+            case(400...499)://클라이언트 에러
+                print("""
+ERROR: Client ERROR \(response.statusCode)
+Response: \(response)
+""")
+            case(500...599)://서버에러
+                print("""
+ERROR: Server ERROR \(response.statusCode)
+Response: \(response)
+""")
+            default://이외
+                print("""
+ERROR: ERROR \(response.statusCode)
+Response: \(response)
+""")
+
+            }
+        }
+    dataTask.resume() // 해당 task를 실행
+}
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -201,5 +262,29 @@ extension NoticeBoardDetailViewController {
         }
         
         
+    }
+}
+
+// NavigationItem UIBarButtonItem Action
+extension NoticeBoardDetailViewController{
+    func onDeleteSuccess(){
+        let alert = UIAlertController(title: "글이 성공적으로 삭제되었습니다.", message: nil, preferredStyle: .alert)
+        
+        let okButton = UIAlertAction(title: "확인", style: .default, handler: {[weak self] _ in
+            debugPrint("목록으로 이동")
+
+            // Todo: 글목록으로 이동해야함
+            self?.navigationController?.popViewController(animated: true)
+          
+//            let viewController = NewPostViewController()
+//            guard let post = self?.post else {return}
+//            viewController.postEditMode = .edit(post)
+//            self?.navigationController?.pushViewController(viewController, animated: true)
+            
+        })
+       
+        alert.addAction(okButton)
+   
+        self.present(alert, animated: true, completion: nil)
     }
 }
