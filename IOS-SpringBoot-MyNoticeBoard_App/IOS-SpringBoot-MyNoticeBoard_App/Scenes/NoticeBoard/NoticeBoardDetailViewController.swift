@@ -12,6 +12,7 @@ import Kingfisher
 class NoticeBoardDetailViewController: UIViewController {
     
     var post: Post?
+    private var commentList: [Comment] = []
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -102,7 +103,14 @@ class NoticeBoardDetailViewController: UIViewController {
     
     //댓글을 표시할 collectionView
     private lazy var commentsCollectionView: UICollectionView = {
-        let collectionView = UICollectionView()
+        //UICollectionView는 항상 layout이 필요하다
+        let layout = UICollectionViewLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+//        collectionView.delegate = self
+//        collectionView.dataSource = self
+        collectionView.backgroundColor = .systemBackground
+        collectionView.register(CommentCollectionViewCell.self, forCellWithReuseIdentifier: "CommentCollectionViewCell")
         
         collectionView.layer.borderWidth = 1.0
         collectionView.layer.borderColor = UIColor.blue.cgColor
@@ -154,70 +162,14 @@ class NoticeBoardDetailViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-  func deletePost(){
-        debugPrint("delete button pressed")
-      guard let url = URL(string: "http://localhost:9090/api/posts/\(post?.id ?? 0)") else {
-            print("ERROR: DELETE ERROR creating URL")
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "DELETE"
-        //request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        
-        let dataTask = URLSession.shared.dataTask(with: request) {  data, response, error in
-            guard error == nil else{
-                print("ERROR: error calling DELETE")
-                return
-            }
-            guard let response = response as? HTTPURLResponse else{
-                print("ERROR: Http request failed")
-                return
-            }
-            guard let data = data else{
-                print("ERROR: Did not receive data")
-                return
-            }
-
-            switch response.statusCode{
-            case(200...299)://성공
-                debugPrint("delete 성공")
-               
-                //UI작업은 main스레드에서 하도록
-                DispatchQueue.main.async{
-                
-                // 삭제가 잘 됐다는 UIAlertController 보여주기
-                self.onDeleteSuccess()
-                    
-                }
-                
-            case(400...499)://클라이언트 에러
-                print("""
-ERROR: Client ERROR \(response.statusCode)
-Response: \(response)
-""")
-            case(500...599)://서버에러
-                print("""
-ERROR: Server ERROR \(response.statusCode)
-Response: \(response)
-""")
-            default://이외
-                print("""
-ERROR: ERROR \(response.statusCode)
-Response: \(response)
-""")
-
-            }
-        }
-    dataTask.resume() // 해당 task를 실행
-}
-    
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         //backbutton
         //navi 제목
         configContents()
+        //받아온 데이터로 collectionView에 흩뿌려진다.
+        fetchComments()
         
     }
     
@@ -299,13 +251,13 @@ extension NoticeBoardDetailViewController {
             $0.leading.equalTo(scrollView.snp.leading).inset(12.0)
             $0.trailing.equalTo(scrollView.snp.trailing).inset(12.0)
             $0.top.equalTo(profileImageView.snp.bottom).offset(10)
-            $0.height.equalTo(500.0)
+            $0.height.equalTo(700.0)
         }
         
         commentsCollectionView.snp.makeConstraints{
             $0.top.equalTo(contentsTextView.snp.bottom).offset(18.0)
             $0.leading.trailing.equalToSuperview().inset(12.0)
-            $0.height.equalTo(100.0)
+            $0.height.equalTo(350.0)
         }
         
         
@@ -334,4 +286,129 @@ extension NoticeBoardDetailViewController{
    
         self.present(alert, animated: true, completion: nil)
     }
+}
+// 게시글 delete 메서드, 댓글 fetch 메서드
+private extension NoticeBoardDetailViewController{
+    
+    // 게시글 delete
+    func deletePost(){
+          debugPrint("delete button pressed")
+        guard let url = URL(string: "http://localhost:9090/api/posts/\(post?.id ?? 0)") else {
+              print("ERROR: DELETE ERROR creating URL")
+              return
+          }
+          
+          var request = URLRequest(url: url)
+          request.httpMethod = "DELETE"
+          //request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+          request.setValue("application/json", forHTTPHeaderField: "Accept")
+          
+          let dataTask = URLSession.shared.dataTask(with: request) {  data, response, error in
+              guard error == nil else{
+                  print("ERROR: error calling DELETE")
+                  return
+              }
+              guard let response = response as? HTTPURLResponse else{
+                  print("ERROR: Http request failed")
+                  return
+              }
+              guard let data = data else{
+                  print("ERROR: Did not receive data")
+                  return
+              }
+
+              switch response.statusCode{
+              case(200...299)://성공
+                  debugPrint("delete 성공")
+                 
+                  //UI작업은 main스레드에서 하도록
+                  DispatchQueue.main.async{
+                  
+                  // 삭제가 잘 됐다는 UIAlertController 보여주기
+                  self.onDeleteSuccess()
+                      
+                  }
+                  
+              case(400...499)://클라이언트 에러
+                  print("""
+  ERROR: Client ERROR \(response.statusCode)
+  Response: \(response)
+  """)
+              case(500...599)://서버에러
+                  print("""
+  ERROR: Server ERROR \(response.statusCode)
+  Response: \(response)
+  """)
+              default://이외
+                  print("""
+  ERROR: ERROR \(response.statusCode)
+  Response: \(response)
+  """)
+
+              }
+          }
+      dataTask.resume() // 해당 task를 실행
+  }
+      
+    //댓글 fetch 메서드
+    func fetchComments(){
+        guard let pid = self.post?.id else { return }
+        guard let url = URL(string: "http://localhost:9090/api/posts/\(pid)/comments") else {
+            debugPrint("ERROR: during Making URL object")
+            return }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let dataTask = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            guard error == nil else{
+                print("ERROR: error calling GET")
+                return
+            }
+            guard let response = response as? HTTPURLResponse else{
+                print("ERROR: Http request failed")
+                return
+            }
+            guard let data = data else{
+                print("ERROR: Did not receive data")
+                return
+            }
+            guard let comments = try? JSONDecoder().decode([Comment].self, from : data)  else {
+                print("ERROR: URLSession data task \(error?.localizedDescription ?? "")")
+                return
+            }
+        
+            
+            switch response.statusCode{
+            case(200...299)://성공
+                debugPrint("댓글 GET 성공!!")
+                self?.commentList.removeAll()
+                self?.commentList += comments
+                debugPrint(self?.commentList)
+                
+//                //UI작업은 main스레드에서 하도록
+//                DispatchQueue.main.async{
+//                    self.tableView.reloadData()
+//                }
+            case(400...499)://클라이언트 에러
+                print("""
+ERROR: Client ERROR \(response.statusCode)
+Response: \(response)
+""")
+            case(500...599)://서버에러
+                print("""
+ERROR: Server ERROR \(response.statusCode)
+Response: \(response)
+""")
+            default://이외
+                print("""
+ERROR: ERROR \(response.statusCode)
+Response: \(response)
+""")
+                
+            }
+        }
+        dataTask.resume() // 해당 task를 실행
+    }
+    
 }

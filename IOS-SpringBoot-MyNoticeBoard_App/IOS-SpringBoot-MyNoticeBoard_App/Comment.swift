@@ -16,7 +16,8 @@ struct Comment: Codable{
     let postId: Int?
 
     enum CodingKeys: String, CodingKey {
-        case id, content, time, postId
+        case id, content, time
+        case postId = "post_id"
         case userNickName = "user_nickname"
     }
     
