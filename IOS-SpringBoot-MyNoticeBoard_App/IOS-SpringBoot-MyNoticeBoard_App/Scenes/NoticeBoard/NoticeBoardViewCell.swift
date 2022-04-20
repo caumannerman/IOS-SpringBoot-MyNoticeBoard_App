@@ -59,7 +59,7 @@ final class NoticeBoardViewCell : UITableViewCell {
         idLabel.text = String(post.id!)
         titleLabel.text = post.title
         print("lslsl")
-        hashTagLabel.text = "#haha # hohoh #llkkkkk"
+        hashTagLabel.text = post.hashTag
         nicknameLabel.text = post.userNickName
         timeLabel.text = post.time
         

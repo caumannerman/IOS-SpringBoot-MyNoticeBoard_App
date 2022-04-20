@@ -16,6 +16,7 @@ enum PostEditMode{
 class NewPostViewController: UIViewController {
     
     var postEditMode: PostEditMode = .new
+    var editModePostId: Int?
     
     private lazy var titleTextField: UITextField = {
         let textField = UITextField()
@@ -69,7 +70,7 @@ class NewPostViewController: UIViewController {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "등록", style: .plain, target: self , action: #selector(createPost))
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "임시저장", style: .plain, target: self, action: nil)
         case .edit(_):
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "수정", style: .plain, target: self, action: nil)
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "수정", style: .plain, target: self, action: #selector(updatePost))
         }
        
         setupSubview()
@@ -80,7 +81,7 @@ class NewPostViewController: UIViewController {
     }
                                                                      
     @objc func createPost(){
-        print("pressed")
+        debugPrint("Post button pressed")
         guard let url = URL(string: "http://localhost:9090/api/posts/") else {
             print("ERROR: Cannot create URL")
             return
@@ -133,8 +134,87 @@ class NewPostViewController: UIViewController {
                 DispatchQueue.main.async{
                 self.resetUI()
                 // 작성이 잘 됐다는 UIAlertController 보여주기
-                self.onTapButton()
+                self.onTapRegisterButton()
                     
+                }
+                
+            case(400...499)://클라이언트 에러
+                print("""
+ERROR: Client ERROR \(response.statusCode)
+Response: \(response)
+""")
+            case(500...599)://서버에러
+                print("""
+ERROR: Server ERROR \(response.statusCode)
+Response: \(response)
+""")
+            default://이외
+                print("""
+ERROR: ERROR \(response.statusCode)
+Response: \(response)
+""")
+
+            }
+        }
+    dataTask.resume() // 해당 task를 실행
+}
+    
+    //.edit모드에서 "수정"버튼을 누른 경우
+    @objc func updatePost(){
+        debugPrint("update button pressed")
+        guard let postId = editModePostId else { return }
+        guard let url = URL(string: "http://localhost:9090/api/posts/\(postId)") else {
+            print("ERROR: Cannot create URL")
+            return
+        }
+        
+        let newPost: Post = Post(id: postId, title: titleTextField.text, content: contentsTextView.text, userNickName: "PATCH한 닉네임", time: "13:31", hashTag: hashtagTextField.text)
+
+        guard let jsonData = try? JSONEncoder().encode(newPost) else {
+            print("ERROR: Trying to convert model to JSON data")
+            return
+        }
+        
+        debugPrint("mymy" )
+        debugPrint(jsonData)
+        debugPrint("mymy End")
+        
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PATCH"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        //body에 담아 보낸다
+        request.httpBody = jsonData
+        
+        let dataTask = URLSession.shared.dataTask(with: request) {  data, response, error in
+            guard error == nil else{
+                print("ERROR: error calling POST")
+                return
+            }
+            guard let response = response as? HTTPURLResponse else{
+                print("ERROR: Http request failed")
+                return
+            }
+            guard let data = data else{
+                print("ERROR: Did not receive data")
+                return
+            }
+            guard let updatedPost = try? JSONDecoder().decode(Post.self, from : data) else {
+                print("ERROR: URLSession data task \(error?.localizedDescription ?? "")")
+                return
+            }
+
+            switch response.statusCode{
+            case(200...299)://성공
+                print("PATCH 성공")
+                print(updatedPost)
+
+                //UI작업은 main스레드에서 하도록
+                //글 작성 페이지를 초기화
+                DispatchQueue.main.async{
+                // 작성이 잘 됐다는 UIAlertController 보여주기
+                self.onTapReviseButton()
                 }
                 
             case(400...499)://클라이언트 에러
@@ -172,6 +252,7 @@ Response: \(response)
             self.contentsTextView.text = post.content
             self.contentsTextView.textColor = .black
             self.hashtagTextField.text = post.hashTag
+            self.editModePostId = post.id
            
         default:
             break
@@ -232,7 +313,8 @@ extension NewPostViewController: UITextViewDelegate{
 
 // NavigationItem UIBarButtonItem Action
 extension NewPostViewController{
-    func onTapButton(){
+    // .new 모드일 때, 글 등록 버튼 눌렀을 때
+    func onTapRegisterButton(){
         let alert = UIAlertController(title: "글이 등록되었습니다.", message: "목록으로 이동하시겠습니까?", preferredStyle: .alert)
         
         let okButton = UIAlertAction(title: "확인", style: .default, handler: {[weak self] _ in
@@ -248,5 +330,22 @@ extension NewPostViewController{
         alert.addAction(okButton)
    
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    // .edit 모드일 때, 글 수정완료 버튼 눌렀을 때
+    func onTapReviseButton(){
+        let alert = UIAlertController(title: "글이 수정되었습니다.", message: "목록으로 이동하시겠습니까?", preferredStyle: .alert)
+        
+        let okButton = UIAlertAction(title: "확인", style: .default, handler: {[weak self] _ in
+            debugPrint("목록으로 이동")
+            
+            self?.navigationController?.popToRootViewController(animated: true)
+        })
+            
+            alert.addAction(okButton)
+       
+            self.present(alert, animated: true, completion: nil)
+        
+        
     }
 }
