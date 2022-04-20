@@ -18,6 +18,8 @@
 		A56B03DE28072C800072A9E6 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56B03DD28072C800072A9E6 /* MyPageViewController.swift */; };
 		A56B03E5280737A40072A9E6 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56B03E4280737A40072A9E6 /* Post.swift */; };
 		A56B03E728073A7D0072A9E6 /* NoticeBoardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56B03E628073A7D0072A9E6 /* NoticeBoardViewCell.swift */; };
+		A5B35F482810778900ACD283 /* CommentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B35F472810778900ACD283 /* CommentCollectionViewCell.swift */; };
+		A5B35F4A281077D400ACD283 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B35F49281077D400ACD283 /* Comment.swift */; };
 		A5F820352804246300BC249C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F820342804246300BC249C /* AppDelegate.swift */; };
 		A5F820372804246300BC249C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F820362804246300BC249C /* SceneDelegate.swift */; };
 		A5F8203E2804246600BC249C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5F8203D2804246600BC249C /* Assets.xcassets */; };
@@ -34,6 +36,8 @@
 		A56B03DD28072C800072A9E6 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		A56B03E4280737A40072A9E6 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		A56B03E628073A7D0072A9E6 /* NoticeBoardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeBoardViewCell.swift; sourceTree = "<group>"; };
+		A5B35F472810778900ACD283 /* CommentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCollectionViewCell.swift; sourceTree = "<group>"; };
+		A5B35F49281077D400ACD283 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		A5F820312804246300BC249C /* IOS-SpringBoot-MyNoticeBoard_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IOS-SpringBoot-MyNoticeBoard_App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5F820342804246300BC249C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5F820362804246300BC249C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +77,7 @@
 				A56B03D32807288D0072A9E6 /* NoticeBoardViewController.swift */,
 				A56B03E628073A7D0072A9E6 /* NoticeBoardViewCell.swift */,
 				A5598278280971E60018EB9E /* NoticeBoardDetailViewController.swift */,
+				A5B35F472810778900ACD283 /* CommentCollectionViewCell.swift */,
 			);
 			path = NoticeBoard;
 			sourceTree = "<group>";
@@ -136,6 +141,7 @@
 				A56B03D2280728210072A9E6 /* Scenes */,
 				A56B03D528072A930072A9E6 /* TabBarController.swift */,
 				A56B03E4280737A40072A9E6 /* Post.swift */,
+				A5B35F49281077D400ACD283 /* Comment.swift */,
 			);
 			path = "IOS-SpringBoot-MyNoticeBoard_App";
 			sourceTree = "<group>";
@@ -222,9 +228,11 @@
 				A56B03DE28072C800072A9E6 /* MyPageViewController.swift in Sources */,
 				A56B03D828072C070072A9E6 /* SearchViewController.swift in Sources */,
 				A56B03D42807288D0072A9E6 /* NoticeBoardViewController.swift in Sources */,
+				A5B35F482810778900ACD283 /* CommentCollectionViewCell.swift in Sources */,
 				A56B03DA28072C440072A9E6 /* NewPostViewController.swift in Sources */,
 				A5F820352804246300BC249C /* AppDelegate.swift in Sources */,
 				A56B03E5280737A40072A9E6 /* Post.swift in Sources */,
+				A5B35F4A281077D400ACD283 /* Comment.swift in Sources */,
 				A56B03E728073A7D0072A9E6 /* NoticeBoardViewCell.swift in Sources */,
 				A56B03D628072A930072A9E6 /* TabBarController.swift in Sources */,
 				A5F820372804246300BC249C /* SceneDelegate.swift in Sources */,

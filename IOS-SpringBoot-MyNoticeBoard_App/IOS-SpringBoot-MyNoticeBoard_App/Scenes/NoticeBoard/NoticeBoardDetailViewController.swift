@@ -100,6 +100,16 @@ class NoticeBoardDetailViewController: UIViewController {
         return textView
     }()
     
+    //댓글을 표시할 collectionView
+    private lazy var commentsCollectionView: UICollectionView = {
+        let collectionView = UICollectionView()
+        
+        collectionView.layer.borderWidth = 1.0
+        collectionView.layer.borderColor = UIColor.blue.cgColor
+        
+        return collectionView
+    }()
+    
     @objc func onTapButton(){
         let alert = UIAlertController(title: "변경하시겠습니까?", message: nil, preferredStyle: .actionSheet)
         
@@ -244,7 +254,7 @@ extension NoticeBoardDetailViewController {
             $0.height.equalTo(view.frame.height+400)
         }
         
-        [ titleLabel, hashTagLabel, profileImageView, nickNameLabel, timeLabel, menuButton, contentsTextView].forEach{
+        [ titleLabel, hashTagLabel, profileImageView, nickNameLabel, timeLabel, menuButton, contentsTextView, commentsCollectionView].forEach{
             contentView.addSubview($0)
         }
         
@@ -290,6 +300,12 @@ extension NoticeBoardDetailViewController {
             $0.trailing.equalTo(scrollView.snp.trailing).inset(12.0)
             $0.top.equalTo(profileImageView.snp.bottom).offset(10)
             $0.height.equalTo(500.0)
+        }
+        
+        commentsCollectionView.snp.makeConstraints{
+            $0.top.equalTo(contentsTextView.snp.bottom).offset(18.0)
+            $0.leading.trailing.equalToSuperview().inset(12.0)
+            $0.height.equalTo(100.0)
         }
         
         
