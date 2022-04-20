@@ -104,16 +104,14 @@ class NoticeBoardDetailViewController: UIViewController {
     //댓글을 표시할 collectionView
     private lazy var commentsCollectionView: UICollectionView = {
         //UICollectionView는 항상 layout이 필요하다
-        let layout = UICollectionViewLayout()
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
-//        collectionView.delegate = self
-//        collectionView.dataSource = self
-        collectionView.backgroundColor = .systemBackground
+         collectionView.delegate = self
+         collectionView.dataSource = self
+       // collectionView.backgroundColor = .systemBackground
         collectionView.register(CommentCollectionViewCell.self, forCellWithReuseIdentifier: "CommentCollectionViewCell")
-        
-        collectionView.layer.borderWidth = 1.0
-        collectionView.layer.borderColor = UIColor.blue.cgColor
         
         return collectionView
     }()
@@ -167,10 +165,11 @@ class NoticeBoardDetailViewController: UIViewController {
         super.viewDidLoad()
         //backbutton
         //navi 제목
+        
         configContents()
+        
         //받아온 데이터로 collectionView에 흩뿌려진다.
         fetchComments()
-        
     }
     
     private func configContents(){
@@ -181,7 +180,7 @@ class NoticeBoardDetailViewController: UIViewController {
         let imageURL = URL(string: "https://www.google.com/imgres?imgurl=http%3A%2F%2Fwww.bigtanews.co.kr%2Fnews%2Fphoto%2F201809%2F69_63_2923.jpg&imgrefurl=http%3A%2F%2Fwww.bigtanews.co.kr%2Fnews%2FarticleView.html%3Fidxno%3D69&tbnid=puF4je26H2YtsM&vet=12ahUKEwjWpriz7pX3AhUK35QKHaUNARgQMygGegUIARDfAQ..i&docid=RackHfu4Lwy0DM&w=550&h=366&q=중앙대&client=safari&ved=2ahUKEwjWpriz7pX3AhUK35QKHaUNARgQMygGegUIARDfAQ" ?? "")
         profileImageView.kf.setImage(with: imageURL, placeholder: UIImage(systemName: "beer_icon") )
         self.nickNameLabel.text = self.post?.userNickName
-        self.timeLabel.text = "13:31"
+        self.timeLabel.text =  self.post?.time
         self.contentsTextView.text = self.post?.content
       
     }
@@ -264,6 +263,30 @@ extension NoticeBoardDetailViewController {
     }
 }
 
+extension NoticeBoardDetailViewController: UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return commentList.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CommentCollectionViewCell", for: indexPath) as? CommentCollectionViewCell else { return UICollectionViewCell() }
+        
+        let comment = commentList[indexPath.item]
+        debugPrint("CollectionViewCell에 뿌리기 직전 : "  )
+        print(comment)
+        cell.setup(comment: comment )
+        return cell
+    }
+}
+extension NoticeBoardDetailViewController: UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.frame.width - 12.0
+        return CGSize(width: width, height: 60)
+    }
+}
+
+
+
 // NavigationItem UIBarButtonItem Action
 extension NoticeBoardDetailViewController{
     func onDeleteSuccess(){
@@ -287,6 +310,7 @@ extension NoticeBoardDetailViewController{
         self.present(alert, animated: true, completion: nil)
     }
 }
+
 // 게시글 delete 메서드, 댓글 fetch 메서드
 private extension NoticeBoardDetailViewController{
     

@@ -40,6 +40,10 @@ final class CommentCollectionViewCell: UICollectionViewCell {
     }()
     
     func setup(comment: Comment){
+       
+        contentView.layer.cornerRadius = 16.0
+        contentView.layer.borderWidth = 1.5
+        contentView.layer.borderColor = UIColor.lightGray.cgColor
         setupSubViews()
         nickNameLabel.text = comment.userNickName
         timeLabel.text = comment.time
@@ -64,7 +68,7 @@ private extension CommentCollectionViewCell{
         }
         
         contentLabel.snp.makeConstraints{
-            $0.top.equalTo(nickNameLabel.snp.bottom).offset(16.0)
+            $0.bottom.equalToSuperview().inset(12.0)
             $0.leading.equalToSuperview().inset(12.0)
         }
     }
