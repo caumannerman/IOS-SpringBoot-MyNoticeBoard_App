@@ -13,6 +13,24 @@ class NoticeBoardDetailViewController: UIViewController {
     
     var post: Post?
     
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = false
+        
+        scrollView.layer.borderWidth = 2.0
+        scrollView.layer.borderColor = UIColor.green.cgColor
+        
+        return scrollView
+    }()
+    
+    private lazy var contentView: UIView = {
+        let contentView = UIView()
+        
+        return contentView
+    }()
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20.0, weight: .bold)
@@ -55,7 +73,7 @@ class NoticeBoardDetailViewController: UIViewController {
     }()
     
     //자신의 글일 때만 보이는 수정 버튼
-    private lazy var reviseButton: UIButton = {
+    private lazy var menuButton: UIButton = {
         let button = UIButton()
         
         button.layer.borderWidth = 2.0
@@ -197,7 +215,7 @@ Response: \(response)
         configSubView()
         //가져온 post데이터를 뿌려줌
         self.titleLabel.text = self.post?.title
-        self.hashTagLabel.text = "#hahaha #hoho #kkk"
+        self.hashTagLabel.text = post?.hashTag
         let imageURL = URL(string: "https://www.google.com/imgres?imgurl=http%3A%2F%2Fwww.bigtanews.co.kr%2Fnews%2Fphoto%2F201809%2F69_63_2923.jpg&imgrefurl=http%3A%2F%2Fwww.bigtanews.co.kr%2Fnews%2FarticleView.html%3Fidxno%3D69&tbnid=puF4je26H2YtsM&vet=12ahUKEwjWpriz7pX3AhUK35QKHaUNARgQMygGegUIARDfAQ..i&docid=RackHfu4Lwy0DM&w=550&h=366&q=중앙대&client=safari&ved=2ahUKEwjWpriz7pX3AhUK35QKHaUNARgQMygGegUIARDfAQ" ?? "")
         profileImageView.kf.setImage(with: imageURL, placeholder: UIImage(systemName: "beer_icon") )
         self.nickNameLabel.text = self.post?.userNickName
@@ -213,12 +231,25 @@ Response: \(response)
 extension NoticeBoardDetailViewController {
     private func configSubView(){
     
-        [ titleLabel, hashTagLabel, profileImageView, nickNameLabel, timeLabel, reviseButton, contentsTextView].forEach{
-            view.addSubview($0)
+        self.view.addSubview(scrollView)
+        
+        scrollView.snp.makeConstraints{
+            $0.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+        scrollView.addSubview(contentView)
+        
+        contentView.snp.makeConstraints{
+            $0.edges.equalTo(0)
+            $0.width.equalTo(view.frame.width)
+            $0.height.equalTo(view.frame.height+400)
+        }
+        
+        [ titleLabel, hashTagLabel, profileImageView, nickNameLabel, timeLabel, menuButton, contentsTextView].forEach{
+            contentView.addSubview($0)
         }
         
         titleLabel.snp.makeConstraints{
-            $0.leading.top.equalTo(view.safeAreaLayoutGuide).inset(6.0)
+            $0.leading.top.equalToSuperview().inset(6.0)
             $0.height.equalTo(40.0)
         }
         
@@ -246,7 +277,7 @@ extension NoticeBoardDetailViewController {
             
         }
         
-        reviseButton.snp.makeConstraints{
+        menuButton.snp.makeConstraints{
             $0.top.equalTo(hashTagLabel.snp.bottom).offset(10.0)
            // $0.leading.equalTo(nickNameLabel.snp.trailing).offset(20.0)
             $0.trailing.equalToSuperview().inset(12.0)
@@ -255,10 +286,10 @@ extension NoticeBoardDetailViewController {
         }
         
         contentsTextView.snp.makeConstraints{
-            $0.leading.trailing.equalToSuperview().inset(12.0)
+            $0.leading.equalTo(scrollView.snp.leading).inset(12.0)
+            $0.trailing.equalTo(scrollView.snp.trailing).inset(12.0)
             $0.top.equalTo(profileImageView.snp.bottom).offset(10)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(12.0)
-            
+            $0.height.equalTo(500.0)
         }
         
         
