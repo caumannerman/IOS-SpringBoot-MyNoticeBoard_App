@@ -618,7 +618,7 @@ Response: \(response)
                 //UI작업은 main스레드에서 하도록
                 //글 작성 페이지를 초기화
                 DispatchQueue.main.async{
-               
+                   debugPrint("으아아아아 collectionView 갱신시작")
                     //새로 받아온 데이터로 다시 화면 구성
                     self.commentsCollectionView.reloadData()
                   
@@ -644,86 +644,4 @@ Response: \(response)
         }
     dataTask.resume() // 해당 task를 실행
 }
-    
-    // 댓글 수정 메서드
-//     func updateComment(){
-//        debugPrint("update button pressed")
-//        guard let postId = editModePostId else { return }
-//        guard let url = URL(string: "http://localhost:9090/api/posts/\(postId)") else {
-//            print("ERROR: Cannot create URL")
-//            return
-//        }
-//
-//        let newPost: Post = Post(id: postId, title: titleTextField.text, content: contentsTextView.text, userNickName: "PATCH한 닉네임", time: "13:31", hashTag: hashtagTextField.text)
-//
-//        guard let jsonData = try? JSONEncoder().encode(newPost) else {
-//            print("ERROR: Trying to convert model to JSON data")
-//            return
-//        }
-//
-//        debugPrint("mymy" )
-//        debugPrint(jsonData)
-//        debugPrint("mymy End")
-//
-//
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "PATCH"
-//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.setValue("application/json", forHTTPHeaderField: "Accept")
-//        //body에 담아 보낸다
-//        request.httpBody = jsonData
-//
-//        let dataTask = URLSession.shared.dataTask(with: request) {  data, response, error in
-//            guard error == nil else{
-//                print("ERROR: error calling POST")
-//                return
-//            }
-//            guard let response = response as? HTTPURLResponse else{
-//                print("ERROR: Http request failed")
-//                return
-//            }
-//            guard let data = data else{
-//                print("ERROR: Did not receive data")
-//                return
-//            }
-//            guard let updatedPost = try? JSONDecoder().decode(Post.self, from : data) else {
-//                print("ERROR: URLSession data task \(error?.localizedDescription ?? "")")
-//                return
-//            }
-//
-//            switch response.statusCode{
-//            case(200...299)://성공
-//                print("PATCH 성공")
-//                print(updatedPost)
-//
-//                //UI작업은 main스레드에서 하도록
-//                //글 작성 페이지를 초기화
-//                DispatchQueue.main.async{
-//                // 작성이 잘 됐다는 UIAlertController 보여주기
-//                self.onTapReviseButton()
-//                }
-//
-//            case(400...499)://클라이언트 에러
-//                print("""
-//ERROR: Client ERROR \(response.statusCode)
-//Response: \(response)
-//""")
-//            case(500...599)://서버에러
-//                print("""
-//ERROR: Server ERROR \(response.statusCode)
-//Response: \(response)
-//""")
-//            default://이외
-//                print("""
-//ERROR: ERROR \(response.statusCode)
-//Response: \(response)
-//""")
-//
-//            }
-//        }
-//    dataTask.resume() // 해당 task를 실행
-//}
-//
-    
-    
 }
