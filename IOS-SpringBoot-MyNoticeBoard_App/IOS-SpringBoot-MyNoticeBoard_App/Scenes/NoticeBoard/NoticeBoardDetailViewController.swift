@@ -101,6 +101,8 @@ class NoticeBoardDetailViewController: UIViewController {
         return textView
     }()
     
+
+    
     //댓글을 표시할 collectionView
     private lazy var commentsCollectionView: UICollectionView = {
         //UICollectionView는 항상 layout이 필요하다
@@ -113,8 +115,29 @@ class NoticeBoardDetailViewController: UIViewController {
        // collectionView.backgroundColor = .systemBackground
         collectionView.register(CommentCollectionViewCell.self, forCellWithReuseIdentifier: "CommentCollectionViewCell")
         
+        // 지울 것
+        collectionView.layer.borderWidth = 1.0
+        collectionView.layer.borderColor = UIColor.systemMint.cgColor
+        collectionView.layer.cornerRadius = 20.0
         return collectionView
     }()
+    //댓글 작성 버튼
+    private lazy var newCommentButton: UIButton = {
+      
+        let button = UIButton()
+        button.layer.borderWidth = 1.0
+        button.layer.borderColor = UIColor.cyan.cgColor
+        button.layer.cornerRadius = 20.0
+        
+        button.setTitle("댓글쓰기", for: .normal)
+        
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        
+        return button
+    }()
+    
+    
     
     @objc func onTapButton(){
         let alert = UIAlertController(title: "변경하시겠습니까?", message: nil, preferredStyle: .actionSheet)
@@ -202,10 +225,10 @@ extension NoticeBoardDetailViewController {
         contentView.snp.makeConstraints{
             $0.edges.equalTo(0)
             $0.width.equalTo(view.frame.width)
-            $0.height.equalTo(view.frame.height+400)
+            $0.height.equalTo(view.frame.height+600)
         }
         
-        [ titleLabel, hashTagLabel, profileImageView, nickNameLabel, timeLabel, menuButton, contentsTextView, commentsCollectionView].forEach{
+        [ titleLabel, hashTagLabel, profileImageView, nickNameLabel, timeLabel, menuButton, contentsTextView, commentsCollectionView, newCommentButton].forEach{
             contentView.addSubview($0)
         }
         
@@ -259,6 +282,12 @@ extension NoticeBoardDetailViewController {
             $0.height.equalTo(350.0)
         }
         
+        newCommentButton.snp.makeConstraints{
+            $0.top.equalTo(commentsCollectionView.snp.bottom).offset(14.0)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(100.0)
+            $0.height.equalTo(40.0)
+        }
         
     }
 }

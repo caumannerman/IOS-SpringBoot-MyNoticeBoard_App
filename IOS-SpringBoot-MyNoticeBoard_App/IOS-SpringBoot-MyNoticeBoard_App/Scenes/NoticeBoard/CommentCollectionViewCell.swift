@@ -45,6 +45,8 @@ final class CommentCollectionViewCell: UICollectionViewCell {
         contentView.layer.borderWidth = 1.5
         contentView.layer.borderColor = UIColor.lightGray.cgColor
         setupSubViews()
+        //우측 꺾쇠모양
+        
         nickNameLabel.text = comment.userNickName
         timeLabel.text = comment.time
         contentLabel.text = comment.content
