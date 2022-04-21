@@ -307,7 +307,10 @@ extension NewPostViewController: UITextViewDelegate{
             contentsTextView.text = "내용을 입력해주세요."
             contentsTextView.textColor = .lightGray
         }
-        
+    }
+    //빈 화면을 누르면 DatePicker/ 키보드 사라지도록
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
     }
 }
 

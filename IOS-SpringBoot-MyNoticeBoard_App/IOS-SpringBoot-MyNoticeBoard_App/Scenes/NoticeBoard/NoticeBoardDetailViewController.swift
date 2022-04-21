@@ -136,6 +136,7 @@ class NoticeBoardDetailViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.tintColor = .systemMint
         
+        button.addTarget(self, action: #selector(newCommentAlert), for: .touchUpInside)
         return button
     }()
     
@@ -168,6 +169,37 @@ class NoticeBoardDetailViewController: UIViewController {
         
         self.present(alert, animated: true, completion: nil)
     }
+    
+    //새로운 댓글을 작성하는 alert
+    @objc func newCommentAlert(){
+        let alert = UIAlertController(title: "변경하시겠습니까?", message: nil, preferredStyle: .actionSheet)
+        
+        let reviseButton = UIAlertAction(title: "글 수정하기", style: .default, handler: {[weak self] _ in
+            debugPrint("수정버튼 클릭")
+            let viewController = NewPostViewController()
+            guard let post = self?.post else {return}
+            viewController.postEditMode = .edit(post)
+            self?.navigationController?.pushViewController(viewController, animated: true)
+            
+        })
+        let deleteButton = UIAlertAction(title: "글 삭제하기", style: .default, handler: {[weak self] _ in
+            
+           // debugPrint("삭제버튼 클릭")
+            //self?.dismiss(animated:true)
+            self?.deleteForReal()
+        })
+       
+        
+        let cancelButton = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(reviseButton)
+        alert.addAction(deleteButton)
+        alert.addAction(cancelButton)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    
     
     //정말 삭제하겠냐고 되묻는 alert
     private func deleteForReal(){
