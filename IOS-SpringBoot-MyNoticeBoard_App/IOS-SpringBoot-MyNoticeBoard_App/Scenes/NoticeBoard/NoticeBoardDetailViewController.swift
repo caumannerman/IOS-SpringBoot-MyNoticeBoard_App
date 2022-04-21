@@ -138,10 +138,66 @@ class NoticeBoardDetailViewController: UIViewController {
         button.setTitleColor(UIColor.black, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.tintColor = .systemMint
+        button.addTarget(self, action: #selector(tapNCButton), for: .touchUpInside)
         
-        button.addTarget(self, action: #selector(newCommentAlert), for: .touchUpInside)
+        
         return button
     }()
+    
+
+    @objc func tapNCButton(){
+        
+        let alert = UIAlertController(title: "댓글을 등록하시겠습니까?", message: nil, preferredStyle: .alert)
+        
+        //버튼(Action을 위한)을 UIAlertAction객체로 생성 , 해당 버튼을 누르면 일어날 기능을 handler에 클로저로 넣어줌/ 아무 일도 안 일어날거면 nil
+        let registerButton = UIAlertAction( title: "등록", style: .default, handler: { [weak self] _ in
+            debugPrint("\( alert.textFields?[0].text )")
+            
+            //textFields는  title, message처럼 UIAlertController가 갖고있는 perperty임 ( UITextField의 배열)
+            //여기서는 UITextField에 입력된 값이 있다면 tasks 배열에 추가하는 것
+            guard let content = alert.textFields?[0].text else { return }
+            guard let pid = self?.post?.id else { return }
+          //사용자가 입력하고 추가한 내용을 토대로 로그인 정보를 구현하기 전까지 임시로 Comment 구조체 인스턴스를 만든다
+            let dto = Comment(id: nil, content: content, userNickName: "새댓글 닉네임", time: "20:22", postId: pid )
+            // DB에 날려서 댓글을 저장하고, 다시 fetch하여 collectionView를 갱신한다.
+//            self?.tasks.append(task)
+//            self?.tableView.reloadData()
+            // TODO:  여기에 api메서드 구현
+            self?.postComment(newComment: dto)
+            
+        } )
+        
+        let cancelButton = UIAlertAction(title: "취소", style: .cancel, handler: nil)// 취소 버튼 클릭 시, 별다른 것 하지 않기때문에 handelr에 nil
+        
+        //addAction은 최대 두개까지 된다.
+        alert.addAction(cancelButton)
+        alert.addAction(registerButton)
+        alert.addTextField(configurationHandler: { textField in
+            textField.placeholder = "댓글 내용을 입력해주세요"
+        })
+      
+        self.present(alert, animated: true, completion: nil)
+    }
+    //보이지않는 fake textField
+//    private lazy var fakeTextField: UITextField = {
+//        let textField = UITextField()
+//        textField.layer.borderWidth = 1.0
+//        textField.layer.borderColor = UIColor.cyan.cgColor
+//        textField.layer.cornerRadius = 10.0
+//        textField.isHidden = true
+//
+//        return textField
+//    }()
+    
+    //툴바 안에 들어갈 textField
+//    private lazy var tbTextField: UITextField = {
+//        let textField = UITextField()
+//        textField.layer.borderWidth = 1.0
+//        textField.layer.borderColor = UIColor.cyan.cgColor
+//        textField.layer.cornerRadius = 10.0
+//        textField.frame = CGRect(x:0, y: 0, width: view.frame.size.width - 100, height: 44)
+//        return textField
+//    }()
     
     
     
@@ -173,34 +229,7 @@ class NoticeBoardDetailViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    //새로운 댓글을 작성하는 alert
-    @objc func newCommentAlert(){
-        let alert = UIAlertController(title: "변경하시겠습니까?", message: nil, preferredStyle: .actionSheet)
-        
-        let reviseButton = UIAlertAction(title: "글 수정하기", style: .default, handler: {[weak self] _ in
-            debugPrint("수정버튼 클릭")
-            let viewController = NewPostViewController()
-            guard let post = self?.post else {return}
-            viewController.postEditMode = .edit(post)
-            self?.navigationController?.pushViewController(viewController, animated: true)
-            
-        })
-        let deleteButton = UIAlertAction(title: "글 삭제하기", style: .default, handler: {[weak self] _ in
-            
-           // debugPrint("삭제버튼 클릭")
-            //self?.dismiss(animated:true)
-            self?.deleteForReal()
-        })
-       
-        
-        let cancelButton = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
-        alert.addAction(reviseButton)
-        alert.addAction(deleteButton)
-        alert.addAction(cancelButton)
-        
-        self.present(alert, animated: true, completion: nil)
-    }
+  
     
     
     
@@ -223,17 +252,34 @@ class NoticeBoardDetailViewController: UIViewController {
  
     override func viewDidLoad() {
         super.viewDidLoad()
+       
         //backbutton
         //navi 제목
         
         configContents()
         
+//        let toolBar = UIToolbar(frame: CGRect(x:0, y: 0, width: view.frame.size.width, height: 50))
+//        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+//
+//        let doneButton = UIBarButtonItem(title: "done", style: .done, target: self, action: #selector(didTapDone))
+//        toolBar.items = [flexibleSpace, doneButton]
+//        toolBar.sizeToFit()
+//
+//
+//       fakeTextField.inputAccessoryView = toolBar
+        
         //받아온 데이터로 collectionView에 흩뿌려진다.
         fetchComments()
     }
+//    @objc func didTapDone(){
+//        print("clickkkk")
+//        fakeTextField.resignFirstResponder()
+//    }
     
     private func configContents(){
         configSubView()
+        
+     
         //가져온 post데이터를 뿌려줌
         self.titleLabel.text = self.post?.title
         self.hashTagLabel.text = post?.hashTag
@@ -242,10 +288,9 @@ class NoticeBoardDetailViewController: UIViewController {
         self.nickNameLabel.text = self.post?.userNickName
         self.timeLabel.text =  self.post?.time
         self.contentsTextView.text = self.post?.content
-      
     }
     
-    
+   
     
 }
 
@@ -325,6 +370,12 @@ extension NoticeBoardDetailViewController {
             $0.width.equalTo(100.0)
             $0.height.equalTo(40.0)
         }
+        
+//        fakeTextField.snp.makeConstraints{
+//            $0.top.equalTo(newCommentButton.snp.bottom).offset(10.0)
+//
+//            $0.leading.trailing.equalToSuperview().inset(12.0)
+//        }
         
     }
 }
@@ -514,5 +565,165 @@ Response: \(response)
         }
         dataTask.resume() // 해당 task를 실행
     }
+    
+    // 새 댓글 작성 메서드 (Post)
+    func postComment(newComment: Comment){
+        debugPrint("Post button pressed")
+        guard let pid = self.post?.id else {return}
+        guard let url = URL(string: "http://localhost:9090/api/posts/\(pid)/comments") else {
+            print("ERROR: Cannot create URL")
+            return
+        }
+        
+        guard let jsonData = try? JSONEncoder().encode(newComment) else {
+            print("ERROR: Trying to convert model to JSON data")
+            return
+        }
+        
+        print("mymy" )
+        print(jsonData)
+        print("mymy End")
+        
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        //body에 담아 보낸다
+        request.httpBody = jsonData
+        
+        let dataTask = URLSession.shared.dataTask(with: request) {  data, response, error in
+            guard error == nil else{
+                print("ERROR: error calling POST")
+                return
+            }
+            guard let response = response as? HTTPURLResponse else{
+                print("ERROR: Http request failed")
+                return
+            }
+            guard let data = data else{
+                print("ERROR: Did not receive data")
+                return
+            }
+            guard let comment = try? JSONDecoder().decode(Comment.self, from : data) else {
+                print("ERROR: URLSession data task \(error?.localizedDescription ?? "")")
+                return
+            }
+
+            switch response.statusCode{
+            case(200...299)://성공
+                print("post 성공")
+                print(comment)
+                self.fetchComments()
+                //UI작업은 main스레드에서 하도록
+                //글 작성 페이지를 초기화
+                DispatchQueue.main.async{
+               
+                    //새로 받아온 데이터로 다시 화면 구성
+                    self.commentsCollectionView.reloadData()
+                  
+                }
+                
+            case(400...499)://클라이언트 에러
+                print("""
+ERROR: Client ERROR \(response.statusCode)
+Response: \(response)
+""")
+            case(500...599)://서버에러
+                print("""
+ERROR: Server ERROR \(response.statusCode)
+Response: \(response)
+""")
+            default://이외
+                print("""
+ERROR: ERROR \(response.statusCode)
+Response: \(response)
+""")
+
+            }
+        }
+    dataTask.resume() // 해당 task를 실행
+}
+    
+    // 댓글 수정 메서드
+//     func updateComment(){
+//        debugPrint("update button pressed")
+//        guard let postId = editModePostId else { return }
+//        guard let url = URL(string: "http://localhost:9090/api/posts/\(postId)") else {
+//            print("ERROR: Cannot create URL")
+//            return
+//        }
+//
+//        let newPost: Post = Post(id: postId, title: titleTextField.text, content: contentsTextView.text, userNickName: "PATCH한 닉네임", time: "13:31", hashTag: hashtagTextField.text)
+//
+//        guard let jsonData = try? JSONEncoder().encode(newPost) else {
+//            print("ERROR: Trying to convert model to JSON data")
+//            return
+//        }
+//
+//        debugPrint("mymy" )
+//        debugPrint(jsonData)
+//        debugPrint("mymy End")
+//
+//
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "PATCH"
+//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//        request.setValue("application/json", forHTTPHeaderField: "Accept")
+//        //body에 담아 보낸다
+//        request.httpBody = jsonData
+//
+//        let dataTask = URLSession.shared.dataTask(with: request) {  data, response, error in
+//            guard error == nil else{
+//                print("ERROR: error calling POST")
+//                return
+//            }
+//            guard let response = response as? HTTPURLResponse else{
+//                print("ERROR: Http request failed")
+//                return
+//            }
+//            guard let data = data else{
+//                print("ERROR: Did not receive data")
+//                return
+//            }
+//            guard let updatedPost = try? JSONDecoder().decode(Post.self, from : data) else {
+//                print("ERROR: URLSession data task \(error?.localizedDescription ?? "")")
+//                return
+//            }
+//
+//            switch response.statusCode{
+//            case(200...299)://성공
+//                print("PATCH 성공")
+//                print(updatedPost)
+//
+//                //UI작업은 main스레드에서 하도록
+//                //글 작성 페이지를 초기화
+//                DispatchQueue.main.async{
+//                // 작성이 잘 됐다는 UIAlertController 보여주기
+//                self.onTapReviseButton()
+//                }
+//
+//            case(400...499)://클라이언트 에러
+//                print("""
+//ERROR: Client ERROR \(response.statusCode)
+//Response: \(response)
+//""")
+//            case(500...599)://서버에러
+//                print("""
+//ERROR: Server ERROR \(response.statusCode)
+//Response: \(response)
+//""")
+//            default://이외
+//                print("""
+//ERROR: ERROR \(response.statusCode)
+//Response: \(response)
+//""")
+//
+//            }
+//        }
+//    dataTask.resume() // 해당 task를 실행
+//}
+//
+    
     
 }

@@ -22,9 +22,10 @@ final class CommentCollectionHeaderView: UICollectionReusableView{
     private lazy var refreshButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "alarm"), for: .normal)
-        
+       // button.addTarget(self, action: #selector(tapRefreshButton), for: .touchUpInside)
         return button
     }()
+
     
     func setupViews(){
         [titleLabel, refreshButton].forEach{ addSubview($0)}
