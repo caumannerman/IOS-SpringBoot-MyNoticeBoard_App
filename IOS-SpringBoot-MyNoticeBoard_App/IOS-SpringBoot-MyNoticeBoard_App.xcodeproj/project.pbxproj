@@ -18,6 +18,7 @@
 		A56B03DE28072C800072A9E6 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56B03DD28072C800072A9E6 /* MyPageViewController.swift */; };
 		A56B03E5280737A40072A9E6 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56B03E4280737A40072A9E6 /* Post.swift */; };
 		A56B03E728073A7D0072A9E6 /* NoticeBoardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56B03E628073A7D0072A9E6 /* NoticeBoardViewCell.swift */; };
+		A594A14C28116C6200C00CC5 /* CommentCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A594A14B28116C6100C00CC5 /* CommentCollectionHeaderView.swift */; };
 		A5B35F482810778900ACD283 /* CommentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B35F472810778900ACD283 /* CommentCollectionViewCell.swift */; };
 		A5B35F4A281077D400ACD283 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B35F49281077D400ACD283 /* Comment.swift */; };
 		A5F820352804246300BC249C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F820342804246300BC249C /* AppDelegate.swift */; };
@@ -36,6 +37,7 @@
 		A56B03DD28072C800072A9E6 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		A56B03E4280737A40072A9E6 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		A56B03E628073A7D0072A9E6 /* NoticeBoardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeBoardViewCell.swift; sourceTree = "<group>"; };
+		A594A14B28116C6100C00CC5 /* CommentCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCollectionHeaderView.swift; sourceTree = "<group>"; };
 		A5B35F472810778900ACD283 /* CommentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCollectionViewCell.swift; sourceTree = "<group>"; };
 		A5B35F49281077D400ACD283 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		A5F820312804246300BC249C /* IOS-SpringBoot-MyNoticeBoard_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IOS-SpringBoot-MyNoticeBoard_App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,6 +80,7 @@
 				A56B03E628073A7D0072A9E6 /* NoticeBoardViewCell.swift */,
 				A5598278280971E60018EB9E /* NoticeBoardDetailViewController.swift */,
 				A5B35F472810778900ACD283 /* CommentCollectionViewCell.swift */,
+				A594A14B28116C6100C00CC5 /* CommentCollectionHeaderView.swift */,
 			);
 			path = NoticeBoard;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A56B03DC28072C650072A9E6 /* AlarmViewController.swift in Sources */,
+				A594A14C28116C6200C00CC5 /* CommentCollectionHeaderView.swift in Sources */,
 				A56B03DE28072C800072A9E6 /* MyPageViewController.swift in Sources */,
 				A56B03D828072C070072A9E6 /* SearchViewController.swift in Sources */,
 				A56B03D42807288D0072A9E6 /* NoticeBoardViewController.swift in Sources */,

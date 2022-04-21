@@ -114,6 +114,9 @@ class NoticeBoardDetailViewController: UIViewController {
          collectionView.dataSource = self
        // collectionView.backgroundColor = .systemBackground
         collectionView.register(CommentCollectionViewCell.self, forCellWithReuseIdentifier: "CommentCollectionViewCell")
+        //headerView 등록
+        collectionView.register(CommentCollectionHeaderView.self,
+                            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "CommentCollectionHeaderView")
         
         // 지울 것
         collectionView.layer.borderWidth = 1.0
@@ -340,11 +343,25 @@ extension NoticeBoardDetailViewController: UICollectionViewDataSource{
         cell.setup(comment: comment )
         return cell
     }
+    //header, footer 구분해서 작성
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader,
+              let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "CommentCollectionHeaderView", for: indexPath) as? CommentCollectionHeaderView else { return UICollectionReusableView() }
+        
+        header.setupViews()
+        
+        return header
+    }
 }
 extension NoticeBoardDetailViewController: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.frame.width - 12.0
         return CGSize(width: width, height: 60)
+    }
+    
+    //header의 사이즈 설정
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        CGSize(width: collectionView.frame.width , height: 50)
     }
 }
 
