@@ -129,10 +129,12 @@ class NoticeBoardDetailViewController: UIViewController {
         button.layer.borderColor = UIColor.cyan.cgColor
         button.layer.cornerRadius = 20.0
         
-        button.setTitle("댓글쓰기", for: .normal)
+        button.setImage(UIImage(systemName: "pencil"), for: .normal)
         
+        button.setTitle(" 댓글쓰기", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        button.tintColor = .systemMint
         
         return button
     }()
